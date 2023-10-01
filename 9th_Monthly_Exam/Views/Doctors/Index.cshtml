@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Doctor>
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+    <div class="col-12">
+        <h3>Doctors</h3>
+        <div class="d-flex justify-content-end mb-1">
+            <a class="btn btn-primary btn-sm" asp-action="Create" asp-controller="Doctors">Add New</a>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>DoctorName</th>
+                    <th>Fees</th>
+                    <th>Specialist</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td><img src="~/Pictures/@d.Picture" class="rounded-circle" style="width:40px;" /></td>
+                        <td>@d.DoctorName</td>
+                        <td>@d.Fees</td>
+                        <td>@d.Specialist</td>
+                        <td>
+                            <a class="btn btn-success btn-sm" asp-action="Edit" asp-controller="Doctors" asp-route-id="@d.DoctorId">Edit</a>
+                            <button data-pk="@d.DoctorId" type="button" class="btn btn-danger btn-sm del">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts
+    {
+    <script src="~/libs/jquery/jquery.js"></script>
+    <script>
+        $(".del").click(function () {
+            if (!confirm('Are you sure to delete?')) return;
+            var btn = $(this);
+            let id = $(this).data("pk");
+            $.ajax({
+                type: "post",
+                url:"/Doctors/Delete/"+id,
+                dataType: "json",
+                success: r => {
+                    if (r.success == true) {
+                        btn.closest("tr").remove();
+                    }
+                }
+            })
+        })
+    </script>
+}
+

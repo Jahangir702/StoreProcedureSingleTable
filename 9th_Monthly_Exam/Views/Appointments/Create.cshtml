@@ -1,0 +1,48 @@
+﻿@model Appointment
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-12">
+        <form asp-action="Create" asp-controller="Appointments" method="post">
+            <h3>Add new Appointment</h3>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2" asp-for="AppointmentDate"></label>
+                <div class="col-6">
+                    <input type="date" asp-for="AppointmentDate" class="form-control" />
+                    <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2" asp-for="DoctorId"></label>
+                <div class="col-6">
+                    <select class="form-select" asp-for="DoctorId" asp-items="@(new SelectList(ViewBag.Doctors, "DoctorId", "DoctorName"))">
+                        <option value="" selected>--Select one--</option>
+
+                    </select>
+                    <span asp-validation-for="DoctorId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-2" asp-for="TotalPatient"></label>
+                <div class="col-6">
+                    <input asp-for="TotalPatient" class="form-control" />
+                    <span asp-validation-for="TotalPatient" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+
+                <div class="col-6 offset-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts
+    {
+    <script src="~/libs/jquery/jquery.js"></script>
+    <script src="~/libs/jquery-validate/jquery.validate.js"></script>
+    <script src="~/libs/jquery-validate/jquery.validate.unobtrusive.js"></script>
+}
